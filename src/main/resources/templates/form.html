@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> <!--tudo do thymeleaf usamos a tag th-->
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Minha página de cadastro</h1>
+    <form  method="post" th:action="@{/produto}" th:object="${produto}"> <!--puxa o objeto produto da controller, como metodo post -->
+        <input type="hidden" th:field="*{id}"/> <!-- atributo id de um produto -->
+        <label>Nome:</label>
+        <input type="text" name="nome" th:field="*{nome}"/> <!--th:field são os atributos de produto-->
+        <br/><br/>
+
+        <label>Descrição:</label>
+        <input type="text" name="descricao" th:field="*{descricao}"/>
+        <br/><br/>
+
+        <label>Valor:</label>
+        <input type="number" name="valor" th:field="*{valor}"/>
+        <br/><br/>
+
+        <label>Quantidade:</label>
+        <input type="number" name="quantidade" th:field="*{quantidade}"/>
+        <br/><br/>
+
+        <label>Imagem:</label>
+        <input type="url" name="imagem" th:field="*{imagem}"/>
+        <br/><br/>
+
+
+        <button type="submit">Salvar</button> <!--manda o objeto por ser post -->
+
+    </form>
+
+</body>
+</html>
