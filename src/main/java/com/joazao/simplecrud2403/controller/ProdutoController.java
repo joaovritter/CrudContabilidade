@@ -2,7 +2,6 @@ package com.joazao.simplecrud2403.controller;
 
 import com.joazao.simplecrud2403.model.Produto;
 import com.joazao.simplecrud2403.repository.ProdutoRepository;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +17,7 @@ public class ProdutoController {
     @GetMapping("/novo")
     public String formNovo(Model model) {
         model.addAttribute("produto", new Produto());//guardando o objeto produto dentro do model
-        return "form";  //thymeleaf entende que essa string é um formulario html
+        return "formProduto";  //thymeleaf entende que essa string é um formulario html
     }
 
     @PostMapping
