@@ -1,4 +1,4 @@
-package com.joazao.simplecrud2403;
+package com.joazao.crudContabilidade;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

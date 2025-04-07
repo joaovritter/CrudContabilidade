@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.joazao</groupId>
-    <artifactId>SimpleCrud2403</artifactId>
+    <artifactId>crudContabilidade</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>SimpleCrud - Aula 24.03</name>
     <description>SimpleCrud - Aula 24.03</description>

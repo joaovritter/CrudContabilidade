@@ -1,4 +1,4 @@
-package com.joazao.simplecrud2403;
+package com.joazao.crudContabilidade;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

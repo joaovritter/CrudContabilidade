@@ -1,7 +1,7 @@
-package com.joazao.simplecrud2403.repository;
+package com.joazao.crudContabilidade.repository;
 
 
-import com.joazao.simplecrud2403.model.Produto;
+import com.joazao.crudContabilidade.model.Produto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {

@@ -1,7 +1,7 @@
-package com.joazao.simplecrud2403.controller;
+package com.joazao.crudContabilidade.controller;
 
-import com.joazao.simplecrud2403.model.Produto;
-import com.joazao.simplecrud2403.repository.ProdutoRepository;
+import com.joazao.crudContabilidade.model.Produto;
+import com.joazao.crudContabilidade.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
