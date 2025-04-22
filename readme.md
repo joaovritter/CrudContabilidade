@@ -234,40 +234,8 @@ spring.jpa.show-sql=true
 - Campos obrigatórios em todos os formulários
 - Tratamento de erros e exceções
 
-## 🧭 Navegação
-- Botões de voltar em todas as páginas
-- Redirecionamentos apropriados após operações
-- Mensagens de feedback para o usuário
 
-## 🎯 Estilização
-- Design responsivo
-- Cores diferentes para diferentes tipos de valores
-- Formatação de valores monetários
-- Layout organizado e intuitivo
 
-## ⭐ Melhores Práticas
-- Uso de transações (@Transactional)
-- Validações de dados
-- Tratamento de exceções
-- Código limpo e organizado
-- Documentação clara
-- Interface amigável
 
-## 🚀 Melhorias Futuras
-1. Implementação de autenticação e autorização
-2. Relatórios e gráficos
-3. Histórico de compras
-4. Controle de estoque
-5. Emissão de notas fiscais
-6. Backup automático do banco de dados
-7. Logs de operações
-8. API REST para integração com outros sistemas
 
-## 📝 Licença
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-## 👥 Autores
-- João Vitor - Desenvolvedor
-
-## 📞 Contato
-- GitHub: [@joazao](https://github.com/joazao)
