@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecionar Cliente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+        .section {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input, select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .cliente-list {
+            list-style: none;
+            padding: 0;
+        }
+        .cliente-item {
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+        .cliente-item:hover {
+            background-color: #f5f5f5;
+        }
+        .mensagem {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .sucesso {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+        .erro {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+        .voltar {
+            display: inline-block;
+            padding: 10px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .voltar:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="voltar">← Voltar</a>
+    
+    <h1>Gerenciamento de Clientes</h1>
+
+    <div class="container">
+        <!-- Seção de Cadastro -->
+        <div class="section">
+            <h2>Cadastrar Novo Cliente</h2>
+            <form action="/clientes/cadastrar" method="post">
+                <input type="text" name="nome" placeholder="Nome" required>
+                <input type="text" name="cpf" placeholder="CPF" required>
+                <input type="text" name="cidade" placeholder="Cidade" required>
+                <input type="text" name="estado" placeholder="Estado" required>
+                <button type="submit">Cadastrar</button>
+            </form>
+        </div>
+
+        <!-- Seção de Seleção -->
+        <div class="section">
+            <h2>Clientes Cadastrados</h2>
+            <ul class="cliente-list">
+                <li th:each="cliente : ${clientes}" class="cliente-item">
+                    <a th:href="@{/clientes/{id}/comprar(id=${cliente.id})}" th:text="${cliente.nome}"></a>
+                    <span th:text="' - ' + ${cliente.cpf}"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Mensagens -->
+    <div th:if="${mensagem}" class="mensagem sucesso" th:text="${mensagem}"></div>
+    <div th:if="${mensagemErro}" class="mensagem erro" th:text="${mensagemErro}"></div>
+</body>
+</html>

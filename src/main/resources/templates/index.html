@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Contabilidade</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .areas-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .area-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .area-card:hover {
+            transform: translateY(-5px);
+        }
+        .area-card h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .area-card p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .area-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .area-link:hover {
+            background-color: #45a049;
+        }
+        .area-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Sistema de Contabilidade</h1>
+        <p>Gerencie seus clientes, fornecedores e produtos de forma eficiente</p>
+    </div>
+
+    <div class="areas-container">
+        <!-- Área de Clientes -->
+        <div class="area-card">
+            <div class="area-icon">👥</div>
+            <h2>Área de Clientes</h2>
+            <p>Gerencie seus clientes, cadastre novos e realize vendas</p>
+            <a href="/clientes" class="area-link">Acessar</a>
+        </div>
+
+        <!-- Área de Fornecedores -->
+        <div class="area-card">
+            <div class="area-icon">🏢</div>
+            <h2>Área de Fornecedores</h2>
+            <p>Cadastre fornecedores e gerencie produtos</p>
+            <a href="/fornecedores" class="area-link">Acessar</a>
+        </div>
+
+        <!-- Área de Produtos -->
+        <div class="area-card">
+            <div class="area-icon">📦</div>
+            <h2>Área de Produtos</h2>
+            <p>Visualize todos os produtos cadastrados</p>
+            <a href="/produtos" class="area-link">Acessar</a>
+        </div>
+    </div>
+</body>
+</html>

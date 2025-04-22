@@ -1,51 +1,53 @@
 package com.joazao.crudContabilidade.controller;
 
-import com.joazao.crudContabilidade.model.Produto;
-import com.joazao.crudContabilidade.repository.ProdutoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.joazao.crudContabilidade.model.Fornecedor;
+import com.joazao.crudContabilidade.repository.FornecedorRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.transaction.annotation.Transactional;
 
-@Controller //para retornar uma pagina html
-@RequestMapping("/produto")
+import java.util.List;
+
+import com.joazao.crudContabilidade.model.Produto;
+import com.joazao.crudContabilidade.repository.ProdutoRepository;
+
+@Controller
 public class ProdutoController {
 
-    @Autowired
-    private ProdutoRepository produtoRepository;
+    private final FornecedorRepository fornecedorRepository;
+    private final ProdutoRepository produtoRepository;
 
-    @GetMapping("/novo")
-    public String formNovo(Model model) {
-        model.addAttribute("produto", new Produto());//guardando o objeto produto dentro do model
-        return "formProduto";  //thymeleaf entende que essa string é um formulario html
+    public ProdutoController(FornecedorRepository fornecedorRepository, ProdutoRepository produtoRepository) {
+        this.fornecedorRepository = fornecedorRepository;
+        this.produtoRepository = produtoRepository;
     }
 
-    @PostMapping
-    public String salvar(@ModelAttribute Produto produto) {
-        System.out.println(produto.toString());
-
-        produtoRepository.save(produto);
-        return "redirect:/produto/novo"; //limpa a tela e ja redireciona para o /novo
+    @GetMapping("/produtos/cadastrar")
+    public String exibirFormularioCadastroProduto(Model model) {
+        List<Fornecedor> fornecedores = fornecedorRepository.findAll();
+        System.out.println("Fornecedores encontrados: " + fornecedores); // Log para verificar os dados
+        if (fornecedores.isEmpty()) {
+            model.addAttribute("mensagemErro", "Nenhum fornecedor cadastrado. Cadastre um fornecedor antes de adicionar produtos.");
+        } else {
+            model.addAttribute("fornecedores", fornecedores);
+        }
+        return "cadastrarProduto";
     }
 
-    @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("produtos", produtoRepository.findAll());
-        return "lista";
+    @PostMapping("/produtos/cadastrar")
+    public String cadastrarProduto(String nome, Double preco, Long fornecedorId, RedirectAttributes redirectAttributes) {
+        // Lógica para salvar o produto associado ao fornecedor
+        redirectAttributes.addFlashAttribute("mensagem", "Produto cadastrado com sucesso!");
+        return "redirect:/produtos/cadastrar";
     }
 
-    @GetMapping("/editar/{id}")
-    public String formEditar(@PathVariable Long id, Model model) {
-        Produto produto = produtoRepository.findById(id).get();
-        model.addAttribute("produto", produto);//crio um objeto no model a partir do id e
-        return "redirect:/produto/novo"; //joga para o formulario
+    @GetMapping("/produtos")
+    public String listarProdutos(Model model) {
+        List<Produto> produtos = produtoRepository.findAll();
+        model.addAttribute("produtos", produtos);
+        return "listarProdutos";
     }
-
-    @GetMapping("/deletar/{id}")
-    public String deletar(@PathVariable Long id) {
-        produtoRepository.deleteById(id);
-        return "redirect:/produto";
-    }
-    //ta
-
 }
