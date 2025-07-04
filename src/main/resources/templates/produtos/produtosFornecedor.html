@@ -221,10 +221,7 @@
                 <p><strong>Crédito:</strong> R$ <span th:text="${#numbers.formatDecimal(produto.credito, 1, 2)}"></span></p>
                 <div class="mt-2">
                     <a th:href="@{'/produtos/' + ${produto.id} + '/editar'}" class="btn btn-warning btn-sm">Editar</a>
-                    <form th:action="@{'/produtos/' + ${produto.id} + '/excluir'}" method="post" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este produto?');">
-                        <input type="hidden" name="fornecedorId" th:value="${fornecedor.id}" />
-                        <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
-                    </form>
+                    <span class="text-muted" style="font-size: 0.9rem; margin-left: 10px;">Produtos só podem ser removidos da lista geral de estoque</span>
                 </div>
             </div>
         </div>

@@ -64,6 +64,34 @@
             box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
         }
 
+        .btn-danger {
+            background: linear-gradient(45deg, #dc3545, #c82333);
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(45deg, #ffc107, #e0a800);
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
+        }
+
+        .btn-sm {
+            border-radius: 20px;
+            padding: 6px 15px;
+            font-size: 0.8rem;
+            margin: 2px;
+            transition: all 0.3s ease;
+        }
+
         .produto-item {
             background: white;
             border-radius: 15px;
@@ -150,6 +178,10 @@
         </div>
 
         <h1>Produtos em Estoque</h1>
+        
+        <div class="alert alert-info" style="background: linear-gradient(135deg, #d1ecf1, #bee5eb); color: #0c5460; border-radius: 15px; border: none; padding: 15px 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+            <strong>💡 Dica:</strong> Você pode excluir produtos desta lista. Os produtos continuarão disponíveis na lista do fornecedor para futuras compras.
+        </div>
         
         <div th:if="${#lists.isEmpty(produtos)}" class="text-center mt-4">
             <p class="text-muted">Nenhum produto em estoque.</p>
