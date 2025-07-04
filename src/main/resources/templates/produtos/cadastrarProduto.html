@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar Produto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/produtos/cadastrarProduto.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="mb-3">
+            <a th:href="@{/fornecedores/{id}/produtos(id=${fornecedor.id})}" class="btn btn-secondary">← Voltar</a>
+        </div>
+
+        <h1>Cadastrar Novo Produto</h1>
+        
+        <div th:if="${mensagemErro}" class="alert alert-danger" role="alert">
+            <span th:text="${mensagemErro}"></span>
+        </div>
+        
+        <div class="fornecedor-info">
+            <h2>Fornecedor</h2>
+            <p><strong>Nome:</strong> <span th:text="${fornecedor.nome}"></span></p>
+            <p><strong>CNPJ:</strong> <span th:text="${fornecedor.cnpj}"></span></p>
+        </div>
+
+        <form th:action="@{/fornecedores/{id}/cadastrar-produto(id=${fornecedor.id})}" method="post" class="needs-validation" novalidate>
+            <input type="hidden" name="fornecedorId" th:value="${fornecedor.id}">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="nome" class="form-label">Nome do Produto</label>
+                    <input type="text" class="form-control" id="nome" name="nome" required>
+                    <div class="invalid-feedback">
+                        Por favor, informe o nome do produto.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="precoCompra" class="form-label">Preço de Compra</label>
+                    <input type="number" class="form-control" id="precoCompra" name="precoCompra" step="0.01" min="0" required>
+                    <div class="invalid-feedback">
+                        Por favor, informe o preço de compra.
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="precoVenda" class="form-label">Preço de Venda</label>
+                    <input type="number" class="form-control" id="precoVenda" name="precoVenda" step="0.01" min="0" required>
+                    <div class="invalid-feedback">
+                        Por favor, informe o preço de venda.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="icms" class="form-label">ICMS (%)</label>
+                    <input type="number" class="form-control" id="icms" name="icms" step="0.01" min="0" max="100" required>
+                    <div class="invalid-feedback">
+                        Por favor, informe o ICMS.
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="debito" class="form-label">Débito</label>
+                    <input type="number" class="form-control" id="debito" name="debito" step="0.01" min="0" required>
+                    <div class="invalid-feedback">
+                        Por favor, informe o débito.
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="credito" class="form-label">Crédito</label>
+                    <input type="number" class="form-control" id="credito" name="credito" step="0.01" min="0" required>
+                    <div class="invalid-feedback">
+                        Por favor, informe o crédito.
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Cadastrar Produto</button>
+                <a th:href="@{/fornecedores/{id}/produtos(id=${fornecedor.id})}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Validação do formulário
+            const form = document.querySelector('.needs-validation');
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     List<Produto> findByFornecedorId(Long fornecedorId);
+    List<Produto> findByEstoqueGreaterThan(int estoque);
+    List<Produto> findByFornecedorIdAndEstoqueGreaterThan(Long fornecedorId, int estoque);
 }

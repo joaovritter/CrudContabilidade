@@ -29,6 +29,9 @@ public class Produto {
     @Column(nullable = false)
     private double credito;
 
+    @Column(nullable = false)
+    private int estoque = 0;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fornecedor_id", nullable = false)
     private Fornecedor fornecedor;
@@ -54,6 +57,9 @@ public class Produto {
         this.debito = debito;
         this.credito = credito;
     }
+
+    public int getEstoque() { return estoque; }
+    public void setEstoque(int estoque) { this.estoque = estoque; }
 
     // Calcula o preço de custo
     public double calcularPrecoCusto() {
