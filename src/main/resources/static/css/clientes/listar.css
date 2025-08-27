@@ -1,0 +1,47 @@
+/* Estilos para a página de listagem de clientes */
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin-top: 20px;
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #27ae60;
+    padding-bottom: 10px;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+.table thead th {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    font-weight: 600;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.btn-sm {
+    margin-right: 5px;
+}
+
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+.text-muted {
+    font-style: italic;
+} 

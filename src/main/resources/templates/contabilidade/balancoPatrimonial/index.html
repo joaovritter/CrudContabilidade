@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Balanço Patrimonial</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            max-width: 1200px;
+        }
+        h1 {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.08);
+        }
+        .balanco-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        .card {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            overflow: hidden;
+            height: fit-content;
+        }
+        .card-header {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 20px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .card-body {
+            padding: 25px;
+        }
+        .direita-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .item-row:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            margin: 10px -25px -25px -25px;
+            padding: 15px 25px;
+        }
+        .item-label {
+            color: #495057;
+            font-weight: 500;
+        }
+        .item-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .ativo { color: #198754; }
+        .passivo { color: #dc3545; }
+        .patrimonio { color: #0d6efd; }
+        .btn-voltar {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            border: none;
+            font-weight: 600;
+            border-radius: 25px;
+            padding: 12px 30px;
+            margin-bottom: 20px;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .btn-voltar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+            color: white;
+        }
+        .equacao {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 600;
+            color: #2c3e50;
+            border: 2px solid #dee2e6;
+        }
+        @media (max-width: 768px) {
+            .container { padding: 15px; margin: 10px; }
+            h1 { font-size: 1.5rem; }
+            .card-body { padding: 15px; }
+            .item-row { flex-direction: column; align-items: flex-start; }
+            .item-value { margin-top: 5px; }
+            .balanco-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1><i class="fas fa-chart-line"></i> Balanço Patrimonial</h1>
+    <p class="text-center text-muted mb-4">Fotografia financeira da empresa em tempo real</p>
+    
+    <div class="text-center mb-4">
+        <a href="/contabilidade" class="btn-voltar">
+            <i class="fas fa-arrow-left"></i> Voltar à Contabilidade
+        </a>
+    </div>
+
+    <!-- Equação Fundamental -->
+    <div class="equacao">
+        <i class="fas fa-balance-scale"></i> ATIVO = PASSIVO + PATRIMÔNIO LÍQUIDO
+    </div>
+
+    <div class="balanco-container">
+        <!-- LADO ESQUERDO - ATIVO -->
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-plus-circle"></i> ATIVO - Bens e Direitos da Empresa
+            </div>
+            <div class="card-body">
+                <div class="item-row">
+                    <span class="item-label">Caixa</span>
+                    <span class="item-value ativo" th:text="${#numbers.formatDecimal(caixa, 1, 'COMMA', 2, 'POINT')}">R$ 0,00</span>
+                </div>
+                <div class="item-row">
+                    <span class="item-label">Estoques (Mercadorias)</span>
+                    <span class="item-value ativo" th:text="${#numbers.formatDecimal(estoques, 1, 'COMMA', 2, 'POINT')}">R$ 0,00</span>
+                </div>
+                <div class="item-row">
+                    <span class="item-label">Contas a Receber</span>
+                    <span class="item-value ativo" th:text="${#numbers.formatDecimal(contasReceber, 1, 'COMMA', 2, 'POINT')}">R$ 0,00</span>
+                </div>
+                <div class="item-row">
+                    <span class="item-label">Bens Patrimoniais</span>
+                    <span class="item-value ativo" th:text="${#numbers.formatDecimal(bensPatrimoniais, 1, 'COMMA', 2, 'POINT')}">R$ 0,00</span>
+                </div>
+                <div class="item-row">
+                    <span class="item-label">TOTAL DO ATIVO</span>
+                    <span class="item-value ativo" th:text="${#numbers.formatDecimal(totalAtivo, 1, 'COMMA', 2, 'POINT')}">R$ 0,00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- LADO DIREITO - PASSIVO + PATRIMÔNIO LÍQUIDO -->
+        <div class="direita-container">
+            <!-- PASSIVO -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-minus-circle"></i> PASSIVO - Obrigações da Empresa
+                </div>
+                <div class="card-body">
+                    <div class="item-row">
+                        <span class="item-label">Contas a Pagar</span>
+                        <span class="item-value passivo" th:text="${#numbers.formatDecimal(contasPagar, 1, 'COMMA', 2, 'POINT')}">R$ 0,00</span>
+                    </div>
+                    <div class="item-row">
+                        <span class="item-label">TOTAL DO PASSIVO</span>
+                        <span class="item-value passivo" th:text="${#numbers.formatDecimal(totalPassivo, 1, 'COMMA', 2, 'POINT')}">R$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PATRIMÔNIO LÍQUIDO -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie"></i> PATRIMÔNIO LÍQUIDO - O que sobra aos sócios
+                </div>
+                <div class="card-body">
+                    <div class="item-row">
+                        <span class="item-label">Capital Social</span>
+                        <span class="item-value patrimonio" th:text="${#numbers.formatDecimal(capitalSocial, 1, 'COMMA', 2, 'POINT')}">R$ 0,00</span>
+                    </div>
+                    <div class="item-row">
+                        <span class="item-label">Lucros/Prejuízos Acumulados</span>
+                        <span class="item-value patrimonio" th:text="${#numbers.formatDecimal(lucrosPrejuizos, 1, 'COMMA', 2, 'POINT')}">R$ 0,00</span>
+                    </div>
+                    <div class="item-row">
+                        <span class="item-label">TOTAL DO PATRIMÔNIO LÍQUIDO</span>
+                        <span class="item-value patrimonio" th:text="${#numbers.formatDecimal(totalPatrimonioLiquido, 1, 'COMMA', 2, 'POINT')}">R$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Verificação da Equação -->
+    <div class="equacao" th:if="${totalAtivo.compareTo(totalPassivo.add(totalPatrimonioLiquido)) == 0}">
+        <i class="fas fa-check-circle text-success"></i> EQUAÇÃO BALANCEADA: Ativo = Passivo + Patrimônio Líquido
+    </div>
+    <div class="equacao" th:unless="${totalAtivo.compareTo(totalPassivo.add(totalPatrimonioLiquido)) == 0}">
+        <i class="fas fa-exclamation-triangle text-warning"></i> EQUAÇÃO DESBALANCEADA: Verificar cálculos
+    </div>
+
+    <div class="text-center mt-4">
+        <small class="text-muted">
+            <i class="fas fa-info-circle"></i> 
+            Balanço atualizado automaticamente com base nos dados do sistema
+        </small>
+    </div>
+</div>
+</body>
+</html> 

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes do Lançamento - Caixa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .header h2 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 20px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 150px;
+        }
+
+        .info-value {
+            color: #555;
+            text-align: right;
+            flex: 1;
+        }
+
+        .tipo-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tipo-entrada {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .tipo-saida {
+            background: linear-gradient(135deg, #dc3545, #fd7e14);
+            color: white;
+        }
+
+        .valor-destaque {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .valor-entrada {
+            color: #28a745;
+        }
+
+        .valor-saida {
+            color: #dc3545;
+        }
+
+        .btn {
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.95rem;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #dc3545, #fd7e14);
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+            
+            .info-value {
+                text-align: left;
+                margin-top: 5px;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2><i class="fas fa-receipt"></i> Detalhes do Lançamento</h2>
+            <p class="text-muted">Informações completas sobre a movimentação</p>
+        </div>
+
+        <div th:if="${caixa}" class="card">
+            <div class="card-header">
+                <i class="fas fa-info-circle"></i> Informações do Lançamento
+            </div>
+            <div class="card-body">
+                <div class="info-row">
+                    <span class="info-label">ID do Lançamento:</span>
+                    <span class="info-value">#<span th:text="${caixa.id}"></span></span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Data:</span>
+                    <span class="info-value">
+                        <i class="fas fa-calendar"></i>
+                        <span th:text="${caixa.data}"></span>
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Tipo:</span>
+                    <span class="info-value">
+                        <span th:class="${caixa.tipo.toString() == 'ENTRADA' ? 'tipo-badge tipo-entrada' : 'tipo-badge tipo-saida'}">
+                            <i th:class="${caixa.tipo.toString() == 'ENTRADA' ? 'fas fa-arrow-up' : 'fas fa-arrow-down'}"></i>
+                            <span th:text="${caixa.tipo}"></span>
+                        </span>
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Valor:</span>
+                    <span class="info-value">
+                        <span th:class="${caixa.tipo.toString() == 'ENTRADA' ? 'valor-destaque valor-entrada' : 'valor-destaque valor-saida'}">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span th:text="${caixa.valor}"></span>
+                        </span>
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Descrição:</span>
+                    <span class="info-value">
+                        <i class="fas fa-file-alt"></i>
+                        <span th:text="${caixa.descricao}"></span>
+                    </span>
+                </div>
+
+                <div class="info-row" th:if="${caixa.relacionadoId != null}">
+                    <span class="info-label">ID Relacionado:</span>
+                    <span class="info-value">
+                        <i class="fas fa-link"></i>
+                        <span th:text="${caixa.relacionadoId}"></span>
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Criado em:</span>
+                    <span class="info-value">
+                        <i class="fas fa-clock"></i>
+                        <span th:text="${caixa.criadoEm}"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div th:unless="${caixa}" class="empty-state">
+            <i class="fas fa-search"></i>
+            <h4>Lançamento não encontrado</h4>
+            <p>O lançamento solicitado não foi encontrado no sistema.</p>
+        </div>
+
+        <div class="actions">
+            <a href="/contabilidade/caixa" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Voltar à Lista
+            </a>
+            
+            <a th:if="${caixa}" th:href="@{/contabilidade/caixa/{id}/editar(id=${caixa.id})}" class="btn btn-primary">
+                <i class="fas fa-edit"></i> Editar
+            </a>
+            
+            <form th:if="${caixa}" th:action="@{/contabilidade/caixa/{id}/excluir(id=${caixa.id})}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-danger" 
+                        onclick="return confirm('Tem certeza que deseja excluir este lançamento?')">
+                    <i class="fas fa-trash"></i> Excluir
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

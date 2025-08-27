@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Patrimônio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .form-label {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            background: white;
+            transform: translateY(-1px);
+        }
+
+        .form-control.is-invalid {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+
+        .form-control.is-valid {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+
+        .input-group-text {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: 2px solid #667eea;
+            border-radius: 15px 0 0 15px;
+            font-weight: 600;
+        }
+
+        .input-group .form-control {
+            border-radius: 0 15px 15px 0;
+            border-left: none;
+        }
+
+        .input-group .form-control:focus {
+            border-left: none;
+        }
+
+        .invalid-feedback {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .valid-feedback {
+            color: #28a745;
+            font-size: 0.875rem;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .btn {
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.95rem;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+        }
+
+        .alert {
+            border-radius: 15px;
+            border: none;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            color: #721c24;
+        }
+
+        .row {
+            margin-bottom: 20px;
+        }
+
+        .col-md-6 {
+            padding: 0 15px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+            
+            .col-md-6 {
+                padding: 0 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>Editar Patrimônio</h2>
+        
+        <div th:if="${mensagemErro}" class="alert alert-danger" role="alert">
+            <span th:text="${mensagemErro}"></span>
+        </div>
+
+        <form th:action="@{/patrimonios/{id}/editar(id=${patrimonio.id})}" method="post" class="needs-validation" novalidate>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="nome" class="form-label">Nome do Patrimônio</label>
+                    <input type="text" class="form-control" id="nome" name="nome" th:value="${patrimonio.nome}" required>
+                    <div class="invalid-feedback">
+                        Por favor, informe o nome do patrimônio.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="descricao" class="form-label">Descrição</label>
+                    <input type="text" class="form-control" id="descricao" name="descricao" th:value="${patrimonio.descricao}" required>
+                    <div class="invalid-feedback">
+                        Por favor, informe a descrição do patrimônio.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="valorAquisicao" class="form-label">Valor de Aquisição</label>
+                    <div class="input-group">
+                        <span class="input-group-text">R$</span>
+                        <input type="number" class="form-control" id="valorAquisicao" name="valorAquisicao" step="0.01" min="0" th:value="${patrimonio.valorAquisicao}" required>
+                        <div class="invalid-feedback">
+                            Por favor, informe um valor válido.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="dataAquisicao" class="form-label">Data de Aquisição</label>
+                    <input type="date" class="form-control" id="dataAquisicao" name="dataAquisicao" th:value="${patrimonio.dataAquisicao}" required>
+                    <div class="invalid-feedback">
+                        Por favor, informe a data de aquisição.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="tipoBem" class="form-label">Tipo de Bem</label>
+                    <select class="form-control" id="tipoBem" name="tipoBem" required>
+                        <option value="">Selecione...</option>
+                        <option value="IMOVEL" th:selected="${patrimonio.tipoBem == 'IMOVEL'}">Imóvel</option>
+                        <option value="VEICULO" th:selected="${patrimonio.tipoBem == 'VEICULO'}">Veículo</option>
+                        <option value="MAQUINA" th:selected="${patrimonio.tipoBem == 'MAQUINA'}">Máquina</option>
+                        <option value="EQUIPAMENTO" th:selected="${patrimonio.tipoBem == 'EQUIPAMENTO'}">Equipamento</option>
+                        <option value="OUTRO" th:selected="${patrimonio.tipoBem == 'OUTRO'}">Outro</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Por favor, selecione o tipo de bem.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="valorEntrada" class="form-label">Valor de Entrada</label>
+                    <div class="input-group">
+                        <span class="input-group-text">R$</span>
+                        <input type="number" class="form-control" id="valorEntrada" name="valorEntrada" step="0.01" min="0" th:value="${patrimonio.valorEntrada}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="parcelasTotais" class="form-label">Parcelas Totais</label>
+                    <input type="number" class="form-control" id="parcelasTotais" name="parcelasTotais" min="0" th:value="${patrimonio.parcelasTotais}">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="parcelasPagas" class="form-label">Parcelas Pagas</label>
+                    <input type="number" class="form-control" id="parcelasPagas" name="parcelasPagas" min="0" th:value="${patrimonio.parcelasPagas}">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="valorParcela" class="form-label">Valor da Parcela</label>
+                    <div class="input-group">
+                        <span class="input-group-text">R$</span>
+                        <input type="number" class="form-control" id="valorParcela" name="valorParcela" step="0.01" min="0" th:value="${patrimonio.valorParcela}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="dataVencimentoPrimeiraParcela" class="form-label">Data do Vencimento da 1ª Parcela</label>
+                    <input type="date" class="form-control" id="dataVencimentoPrimeiraParcela" name="dataVencimentoPrimeiraParcela" th:value="${patrimonio.dataVencimentoPrimeiraParcela}">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="fornecedor" class="form-label">Fornecedor</label>
+                    <select class="form-control" id="fornecedor" name="fornecedor.id">
+                        <option value="">Selecione...</option>
+                        <option th:each="fornecedor : ${fornecedores}" th:value="${fornecedor.id}" th:text="${fornecedor.nome}" th:selected="${patrimonio.fornecedor != null and fornecedor.id == patrimonio.fornecedor.id}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Atualizar Patrimônio</button>
+                <a href="/patrimonios" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Validação do formulário
+            const form = document.querySelector('.needs-validation');
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            });
+
+            // Formatação do campo valor
+            const valorInput = document.getElementById('valorAquisicao');
+            valorInput.addEventListener('input', function() {
+                let value = this.value.replace(/[^\d.,]/g, '');
+                value = value.replace(',', '.');
+                if (value && !isNaN(value)) {
+                    this.value = parseFloat(value).toFixed(2);
+                }
+            });
+
+            // Validação de data para limitar ano a 4 dígitos
+            const dataInputs = document.querySelectorAll('input[type="date"]');
+            dataInputs.forEach(function(input) {
+                input.addEventListener('input', function() {
+                    const value = this.value;
+                    if (value && value.length > 0) {
+                        const year = value.split('-')[0];
+                        if (year && year.length > 4) {
+                            this.value = value.substring(0, 10); // Limita a 10 caracteres (YYYY-MM-DD)
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

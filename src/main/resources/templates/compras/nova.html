@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nova Compra</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .container { background: rgba(255,255,255,0.97); border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); padding: 30px; margin-top: 20px; margin-bottom: 20px; backdrop-filter: blur(10px); }
+        h2 { color: #2c3e50; font-weight: 600; margin-bottom: 30px; text-align: center; }
+        .btn { border-radius: 25px; padding: 12px 30px; font-weight: 600; transition: all 0.3s ease; border: none; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.95rem; margin-right: 10px; }
+        .btn-primary { background: linear-gradient(45deg, #667eea, #764ba2); box-shadow: 0 4px 15px rgba(102,126,234,0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102,126,234,0.4); }
+        .btn-secondary { background: linear-gradient(45deg, #6c757d, #495057); box-shadow: 0 4px 15px rgba(108,117,125,0.3); }
+        .btn-secondary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(108,117,125,0.4); }
+        .table { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1); margin-top: 20px; }
+        .table thead th { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.85rem; }
+        .table tbody tr { transition: all 0.3s ease; }
+        .table tbody tr:hover { background: linear-gradient(135deg, #f8f9fa, #e9ecef); transform: scale(1.01); }
+        .table tbody td { padding: 15px; border: none; border-bottom: 1px solid #dee2e6; vertical-align: middle; }
+        .btn-sm { border-radius: 20px; padding: 6px 15px; font-size: 0.8rem; margin: 2px; transition: all 0.3s ease; }
+        .alert-danger { background: linear-gradient(135deg, #f8d7da, #f5c6cb); color: #721c24; border-radius: 15px; border: none; padding: 15px 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        label { font-weight: 500; }
+        @media (max-width: 768px) { .container { margin: 10px; padding: 20px; } .table-responsive { border-radius: 15px; overflow: hidden; } .btn { margin-bottom: 10px; width: 100%; } .btn-sm { width: auto; margin: 2px; } }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>Registrar Nova Compra</h2>
+        <div th:if="${mensagemErro}" class="alert alert-danger" role="alert">
+            <span th:text="${mensagemErro}"></span>
+        </div>
+        <form th:action="@{/compras/nova}" method="post">
+            <div class="mb-3">
+                <label for="fornecedor" class="form-label">Fornecedor</label>
+                <select class="form-select" id="fornecedor" name="fornecedorId" required>
+                    <option value="" disabled selected>Selecione o fornecedor</option>
+                    <option th:each="fornecedor : ${fornecedores}" th:value="${fornecedor.id}" th:text="${fornecedor.nome}"></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="dataCompra" class="form-label">Data da Compra</label>
+                <input type="date" class="form-control" id="dataCompra" name="dataCompra" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Forma de Pagamento</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="formaPagamento" id="avista" value="AVISTA" checked onclick="toggleParcelas()">
+                    <label class="form-check-label" for="avista">À vista</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="formaPagamento" id="aprazo" value="APRAZO" onclick="toggleParcelas()">
+                    <label class="form-check-label" for="aprazo">A prazo</label>
+                </div>
+            </div>
+            <div class="mb-3" id="parcelasDiv" style="display: none;">
+                <label for="parcelas" class="form-label">Número de Parcelas</label>
+                <input type="number" class="form-control" id="parcelas" name="parcelas" min="2" max="36" value="2">
+            </div>
+            <div class="table-responsive">
+                <table class="table" id="produtosTable">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Valor Unitário</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="produtosBody">
+                        <tr>
+                            <td>
+                                <select class="form-select" name="produtoIds" required>
+                                    <option value="" disabled selected>Selecione</option>
+                                    <option th:each="produto : ${produtos}" th:value="${produto.id}" th:text="${produto.nome}"></option>
+                                </select>
+                            </td>
+                            <td><input type="number" class="form-control" name="quantidades" min="1" value="1" required></td>
+                            <td><input type="number" class="form-control" name="valores" min="0.01" step="0.01" value="0.00" required></td>
+                            <td><button type="button" class="btn btn-danger btn-sm" onclick="removerLinha(this)">Remover</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="adicionarLinha()">Adicionar Produto</button>
+            </div>
+            <div class="mt-4 text-center">
+                <button type="submit" class="btn btn-primary">Salvar Compra</button>
+                <a href="/compras" class="btn btn-secondary">Voltar</a>
+            </div>
+        </form>
+    </div>
+    <script>
+        function adicionarLinha() {
+            const tbody = document.getElementById('produtosBody');
+            const novaLinha = tbody.rows[0].cloneNode(true);
+            novaLinha.querySelectorAll('input, select').forEach(function(el) {
+                if (el.tagName === 'INPUT') el.value = (el.type === 'number' ? '1' : '');
+                if (el.tagName === 'SELECT') el.selectedIndex = 0;
+            });
+            tbody.appendChild(novaLinha);
+        }
+        function removerLinha(btn) {
+            const tbody = document.getElementById('produtosBody');
+            if (tbody.rows.length > 1) btn.closest('tr').remove();
+        }
+        function toggleParcelas() {
+            const aprazo = document.getElementById('aprazo').checked;
+            document.getElementById('parcelasDiv').style.display = aprazo ? 'block' : 'none';
+            document.getElementById('valorParcelaDiv').style.display = aprazo ? 'block' : 'none';
+            calcularValorParcela();
+        }
+        function calcularValorParcela() {
+            let total = 0;
+            document.querySelectorAll('input[name="quantidades"]').forEach((qtdInput, i) => {
+                const valorInput = document.querySelectorAll('input[name="valores"]')[i];
+                total += (parseFloat(qtdInput.value || 0) * parseFloat(valorInput.value || 0));
+            });
+            const aprazo = document.getElementById('aprazo').checked;
+            if (aprazo) {
+                const parcelas = parseInt(document.getElementById('parcelas').value) || 1;
+                const valorParcela = total / parcelas;
+                document.getElementById('valorParcela').value = valorParcela.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+            } else {
+                document.getElementById('valorParcela').value = '';
+            }
+        }
+        document.getElementById('parcelas')?.addEventListener('input', calcularValorParcela);
+        document.querySelectorAll('input[name="quantidades"], input[name="valores"]').forEach(input => {
+            input.addEventListener('input', calcularValorParcela);
+        });
+        document.getElementById('avista').addEventListener('change', toggleParcelas);
+        document.getElementById('aprazo').addEventListener('change', toggleParcelas);
+        window.onload = toggleParcelas;
+
+        // Validação de data para limitar ano a 4 dígitos
+        const dataInputs = document.querySelectorAll('input[type="date"]');
+        dataInputs.forEach(function(input) {
+            input.addEventListener('input', function() {
+                const value = this.value;
+                if (value && value.length > 0) {
+                    const year = value.split('-')[0];
+                    if (year && year.length > 4) {
+                        this.value = value.substring(0, 10); // Limita a 10 caracteres (YYYY-MM-DD)
+                    }
+                }
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Lançamento - Caixa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .header h2 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .form-label {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            background: white;
+            transform: translateY(-1px);
+        }
+
+        .form-control.is-invalid {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+
+        .form-control.is-valid {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+
+        .input-group-text {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: 2px solid #667eea;
+            border-radius: 15px 0 0 15px;
+            font-weight: 600;
+        }
+
+        .input-group .form-control {
+            border-radius: 0 15px 15px 0;
+            border-left: none;
+        }
+
+        .input-group .form-control:focus {
+            border-left: none;
+        }
+
+        .form-select {
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            background: white;
+            transform: translateY(-1px);
+        }
+
+        .invalid-feedback {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .valid-feedback {
+            color: #28a745;
+            font-size: 0.875rem;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .btn {
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.95rem;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+        }
+
+        .alert {
+            border-radius: 15px;
+            border: none;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            color: #721c24;
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+        }
+
+        .row {
+            margin-bottom: 20px;
+        }
+
+        .col-md-6 {
+            padding: 0 15px;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+            
+            .col-md-6 {
+                padding: 0 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="header">
+            <h2><i class="fas fa-edit"></i> Editar Lançamento</h2>
+            <p class="text-muted">Modifique as informações do lançamento</p>
+        </div>
+        
+        <div th:if="${mensagemErro}" class="alert alert-danger" role="alert">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span th:text="${mensagemErro}"></span>
+        </div>
+
+        <div th:if="${mensagem}" class="alert alert-success" role="alert">
+            <i class="fas fa-check-circle"></i>
+            <span th:text="${mensagem}"></span>
+        </div>
+
+        <form th:if="${caixa}" th:action="@{/contabilidade/caixa/{id}/editar(id=${caixa.id})}" method="post" class="needs-validation" novalidate>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="valor" class="form-label">Valor</label>
+                    <div class="input-group">
+                        <span class="input-group-text">R$</span>
+                        <input type="number" class="form-control" id="valor" name="valor" 
+                               th:value="${caixa.valor}" step="0.01" min="0" required>
+                        <div class="invalid-feedback">
+                            Por favor, informe um valor válido.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="tipo" class="form-label">Tipo de Movimentação</label>
+                    <select class="form-select" id="tipo" name="tipo" required>
+                        <option value="">Selecione...</option>
+                        <option value="ENTRADA" th:selected="${caixa.tipo == 'ENTRADA'}">
+                            <i class="fas fa-arrow-up"></i> Entrada
+                        </option>
+                        <option value="SAIDA" th:selected="${caixa.tipo == 'SAIDA'}">
+                            <i class="fas fa-arrow-down"></i> Saída
+                        </option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Por favor, selecione o tipo de movimentação.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <label for="descricao" class="form-label">Descrição</label>
+                    <textarea class="form-control" id="descricao" name="descricao" 
+                              rows="3" required th:text="${caixa.descricao}"></textarea>
+                    <div class="invalid-feedback">
+                        Por favor, informe uma descrição.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Data Original</label>
+                    <div class="form-control-plaintext">
+                        <i class="fas fa-calendar"></i>
+                        <span th:text="${#temporals.format(caixa.data, 'dd/MM/yyyy')}"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Criado em</label>
+                    <div class="form-control-plaintext">
+                        <i class="fas fa-clock"></i>
+                        <span th:text="${#temporals.format(caixa.criadoEm, 'dd/MM/yyyy HH:mm:ss')}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3" th:if="${caixa.relacionadoId != null}">
+                <div class="col-md-6">
+                    <label class="form-label">ID Relacionado</label>
+                    <div class="form-control-plaintext">
+                        <i class="fas fa-link"></i>
+                        <span th:text="${caixa.relacionadoId}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Salvar Alterações
+                </button>
+                <a th:href="@{/contabilidade/caixa/{id}(id=${caixa.id})}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+            </div>
+        </form>
+
+        <div th:unless="${caixa}" class="text-center">
+            <i class="fas fa-search" style="font-size: 3rem; color: #6c757d; opacity: 0.5;"></i>
+            <h4 class="mt-3">Lançamento não encontrado</h4>
+            <p class="text-muted">O lançamento solicitado não foi encontrado no sistema.</p>
+            <a href="/contabilidade/caixa" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Voltar à Lista
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Validação do formulário
+            const form = document.querySelector('.needs-validation');
+            if (form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                });
+            }
+
+            // Formatação do campo valor
+            const valorInput = document.getElementById('valor');
+            if (valorInput) {
+                valorInput.addEventListener('input', function() {
+                    let value = this.value.replace(/[^\d.,]/g, '');
+                    value = value.replace(',', '.');
+                    if (value && !isNaN(value)) {
+                        this.value = parseFloat(value).toFixed(2);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html> 
